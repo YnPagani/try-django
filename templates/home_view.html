@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{title}} (id: {{id}})</h1>
-<p>{{content}}</p>
+
+<h1>{{ title }} (id: {{ id }})</h1>
+<p>{{ content }}</p>
+<ul>
+    {% for article in article_list %}
+    <li>{{ article.title }} - {{ article.content }}</li>
+    {% endfor %}
+
+
+</ul>
 {% endblock content %}
