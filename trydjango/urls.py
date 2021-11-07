@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 
 from accounts.views import (
-    login_view
+    login_view,
+    logout_view
 )
 
 from articles.views import (
@@ -34,4 +35,5 @@ urlpatterns = [
     path("articles/create/", article_create_view),
     path("articles/<int:id>/", article_detail_view),
     path("login/", login_view),
+    path("logout/", logout_view),
 ]
