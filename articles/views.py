@@ -26,8 +26,10 @@ def article_create_view(request):
     form = ArticleForm()
     context = {"article_form": form}
     if request.method == "POST":
-        if form.is_valid:
-            form = ArticleForm(request.POST)
+        form = ArticleForm(request.POST)
+        context["article_form"] = form
+
+        if form.is_valid():
             new_article = form.save()
             context["new_article"] = new_article
             context["created"] = True
