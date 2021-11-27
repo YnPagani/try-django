@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 
 # Create your views here.
@@ -21,20 +21,17 @@ def login_view(request):
     """
     Handles the user login and redirect to admin page if loggin successfully
     """
-    username, password = -1, -1
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("/")
+    else:
+        form = AuthenticationForm(request)
 
-        user = authenticate(request, username=username, password=password)
-        if user is None:
-            context = {"error": "Invalid username or password"}
-            return render(request, "accounts/login.html", context=context)
-
-        login(request, user)
-        return redirect("/admin")
-
-    return render(request, "accounts/login.html", {})
+    context = {"form": form}
+    return render(request, "accounts/login.html", context=context)
 
 
 def logout_view(request):
